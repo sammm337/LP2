@@ -1,0 +1,821 @@
+APEX CODING
+
+
+// --- 1. Mathematical Scientific Calculator
+public class Calculator {
+    public Double firstnumber { get; set; }
+    public Double secondnumber { get; set; }
+    public Double result { get; set; }
+    public String operationName { get; set; }
+
+
+    public List<String> history { get; set; }
+
+
+    public Calculator() {
+        history = new List<String>();
+    }
+
+
+    private void log(String opName, String message) {
+        operationName = opName;
+        if (result != null)
+            history.add(message + ' = ' + result);
+        else
+            history.add(message + ' = Invalid');
+    }
+
+
+    public void Addition() {
+        result = firstnumber + secondnumber;
+        
+        log('Addition', 'Addition of ' + firstnumber + ' and ' + secondnumber);
+    }
+
+
+    public void Subtraction() {
+        result = firstnumber - secondnumber;
+        log('Subtraction', 'Subtraction of ' + firstnumber + ' and ' + secondnumber);
+    }
+
+
+    public void Multiplication() {
+        result = firstnumber * secondnumber;
+        log('Multiplication', 'Multiplication of ' + firstnumber + ' and ' + secondnumber);
+    }
+
+
+    public void Division() {
+        result = (secondnumber != 0) ? firstnumber / secondnumber : null;
+        log('Division', 'Division of ' + firstnumber + ' by ' + secondnumber);
+    }
+
+
+    public void Modulus() {
+        result = Math.mod(firstnumber.intValue(), secondnumber.intValue());
+        log('Modulus', 'Modulus of ' + firstnumber + ' % ' + secondnumber);
+    }
+
+
+    public void power() {
+        result = Math.pow(firstnumber, secondnumber);
+        log('Power', firstnumber + ' ^ ' + secondnumber);
+    }
+
+
+    public void square_root1() {
+        result = Math.sqrt(firstnumber);
+        log('Square Root', 'Square root of ' + firstnumber);
+    }
+
+
+    public void square_root2() {
+        result = Math.sqrt(secondnumber);
+        log('Square Root', 'Square root of ' + secondnumber);
+    }
+
+
+    public void square1() {
+        result = firstnumber * firstnumber;
+        log('Square', 'Square of ' + firstnumber);
+    }
+
+
+    public void square2() {
+        result = secondnumber * secondnumber;
+        log('Square', 'Square of ' + secondnumber);
+    }
+
+
+    public void sine1() {
+        result = Math.sin(firstnumber * Math.PI / 180);
+        log('Sine', 'Sine of ' + firstnumber + '°');
+    }
+
+
+    public void sine2() {
+        result = Math.sin(secondnumber * Math.PI / 180);
+        log('Sine', 'Sine of ' + secondnumber + '°');
+    }
+
+
+    public void cosine1() {
+        result = Math.cos(firstnumber * Math.PI / 180);
+        log('Cosine', 'Cosine of ' + firstnumber + '°');
+    }
+
+
+    public void cosine2() {
+        result = Math.cos(secondnumber * Math.PI / 180);
+        log('Cosine', 'Cosine of ' + secondnumber + '°');
+    }
+
+
+    public void tangent1() {
+        result = Math.tan(firstnumber * Math.PI / 180);
+        log('Tangent', 'Tangent of ' + firstnumber + '°');
+    }
+
+
+    public void tangent2() {
+        result = Math.tan(secondnumber * Math.PI / 180);
+        log('Tangent', 'Tangent of ' + secondnumber + '°');
+    }
+
+
+    public void log1() {
+        result = (firstnumber > 0) ? Math.log(firstnumber) / Math.log(10) : null;
+        log('Log', 'Log base 10 of ' + firstnumber);
+    }
+
+
+    public void log2() {
+        result = (secondnumber > 0) ? Math.log(secondnumber) / Math.log(10) : null;
+        log('Log', 'Log base 10 of ' + secondnumber);
+    }
+
+
+    public void ln1() {
+        result = (firstnumber > 0) ? Math.log(firstnumber) : null;
+        log('Ln', 'Ln of ' + firstnumber);
+    }
+
+
+    public void ln2() {
+        result = (secondnumber > 0) ? Math.log(secondnumber) : null;
+        log('Ln', 'Ln of ' + secondnumber);
+    }
+
+
+    public void exp1() {
+        result = Math.exp(firstnumber);
+        log('Exponential', 'e^' + firstnumber);
+    }
+
+
+    public void exp2() {
+        result = Math.exp(secondnumber);
+        log('Exponential', 'e^' + secondnumber);
+    }
+
+
+    public void abs1() {
+        result = Math.abs(firstnumber);
+        log('Absolute', 'Absolute of ' + firstnumber);
+    }
+
+
+    public void abs2() {
+        result = Math.abs(secondnumber);
+        log('Absolute', 'Absolute of ' + secondnumber);
+    }
+
+
+    public void reset() {
+        firstnumber = null;
+        secondnumber = null;
+        result = null;
+        operationName = null;
+        history.clear();
+    }
+}
+
+
+
+
+
+
+// Calculator (Front End)
+
+<apex:page controller="Calculator">
+    <apex:form>
+
+        <apex:sectionHeader title="Scientific Calculator" subtitle="With All Operations" />
+
+        <apex:pageBlock title="Calculator">
+
+            <!-- Input Fields -->
+            <apex:pageBlockSection id="inputs">
+                <apex:inputText label="First Number" value="{!firstnumber}" />
+                <apex:inputText label="Second Number" value="{!secondnumber}" />
+                <apex:outputText label="Operation" value="{!operationName}" id="op" style="color:blue;" />
+                <apex:outputText label="Result" value="{!result}" id="res" style="font-weight: bold;" />
+            </apex:pageBlockSection>
+
+            <!-- Basic Operations -->
+            <apex:pageBlockSection title="Basic Operations" columns="3">
+                <apex:commandButton value="Addition" action="{!Addition}" reRender="res,op,history" />
+                <apex:commandButton value="Subtraction" action="{!Subtraction}" reRender="res,op,history" />
+                <apex:commandButton value="Multiplication" action="{!Multiplication}" reRender="res,op,history" />
+                <apex:commandButton value="Division" action="{!Division}" reRender="res,op,history" />
+                <apex:commandButton value="Modulus" action="{!Modulus}" reRender="res,op,history" />
+                <apex:commandButton value="Power" action="{!power}" reRender="res,op,history" />
+            </apex:pageBlockSection>
+
+            <!-- Advanced Math -->
+            <apex:pageBlockSection title="Square and Roots" columns="3">
+                <apex:commandButton value="Square of Num1" action="{!square1}" reRender="res,op,history" />
+                <apex:commandButton value="Square of Num2" action="{!square2}" reRender="res,op,history" />
+                <apex:commandButton value="Sqrt of Num1" action="{!square_root1}" reRender="res,op,history" />
+                <apex:commandButton value="Sqrt of Num2" action="{!square_root2}" reRender="res,op,history" />
+            </apex:pageBlockSection>
+
+            <!-- Trigonometry -->
+            <apex:pageBlockSection title="Trigonometry (Degrees)" columns="3">
+                <apex:commandButton value="Sin(Num1)" action="{!sine1}" reRender="res,op,history" />
+                <apex:commandButton value="Sin(Num2)" action="{!sine2}" reRender="res,op,history" />
+                <apex:commandButton value="Cos(Num1)" action="{!cosine1}" reRender="res,op,history" />
+                <apex:commandButton value="Cos(Num2)" action="{!cosine2}" reRender="res,op,history" />
+                <apex:commandButton value="Tan(Num1)" action="{!tangent1}" reRender="res,op,history" />
+                <apex:commandButton value="Tan(Num2)" action="{!tangent2}" reRender="res,op,history" />
+            </apex:pageBlockSection>
+
+            <!-- Logarithmic & Exponential -->
+            <apex:pageBlockSection title="Log & Exponential" columns="3">
+                <apex:commandButton value="Log(Num1)" action="{!log1}" reRender="res,op,history" />
+                <apex:commandButton value="Log(Num2)" action="{!log2}" reRender="res,op,history" />
+                <apex:commandButton value="Ln(Num1)" action="{!ln1}" reRender="res,op,history" />
+                <apex:commandButton value="Ln(Num2)" action="{!ln2}" reRender="res,op,history" />
+                <apex:commandButton value="e^Num1" action="{!exp1}" reRender="res,op,history" />
+                <apex:commandButton value="e^Num2" action="{!exp2}" reRender="res,op,history" />
+            </apex:pageBlockSection>
+
+            <!-- Absolute Values -->
+            <apex:pageBlockSection title="Absolute Value" columns="2">
+                <apex:commandButton value="|Num1|" action="{!abs1}" reRender="res,op,history" />
+                <apex:commandButton value="|Num2|" action="{!abs2}" reRender="res,op,history" />
+            </apex:pageBlockSection>
+
+            <!-- History -->
+            <apex:pageBlockSection title="Operation History" id="history">
+                <apex:repeat value="{!history}" var="h">
+                    <div style="margin: 3px 0;">• {!h}</div>
+                </apex:repeat>
+            </apex:pageBlockSection>
+
+        </apex:pageBlock>
+
+        <!-- Reset Button -->
+        <div style="margin-top: 15px; margin-left: 25px">
+            <apex:commandButton value="Reset" action="{!reset}" reRender="inputs,res,op,history" />
+        </div>
+
+    </apex:form>
+</apex:page>
+
+
+
+
+
+
+// --- 2. Generate Student Mark Sheet
+public class Marksheet {
+    public void generate(String name, Integer[] marks) {
+        if (String.isBlank(name)) {
+            System.debug('Student name is required.');
+            return;
+        }
+
+        if (marks == null || marks.isEmpty()) {
+            System.debug('Marks data is missing for ' + name + '.');
+            return;
+        }
+
+        Integer total = 0;
+        for (Integer mark : marks) {
+            if (mark != null) total += mark;
+        }
+
+        Double percentage = total / (Double) marks.size();
+        String grade;
+
+        if (percentage >= 90) grade = 'A+';
+        else if (percentage >= 80) grade = 'A';
+        else if (percentage >= 70) grade = 'B';
+        else if (percentage >= 60) grade = 'C';
+        else if (percentage >= 50) grade = 'D';
+        else grade = 'F';
+
+        System.debug('--- Marksheet ---');
+        System.debug('Student Name : ' + name);
+        System.debug('Subjects      : ' + marks.size());
+        System.debug('Total Marks   : ' + total);
+        System.debug('Percentage    : ' + percentage + '%');
+        System.debug('Grade         : ' + grade);
+        System.debug('----------------');
+    }
+}
+
+
+// To execute in Anonymous Window:
+Marksheet ms = new Marksheet();
+ms.generate('John Doe', new Integer[]{85, 90, 78, 92});
+
+
+
+// --- 3. Greatest Among Three Numbers
+public class Maximum {
+    public void compare(Integer x, Integer y, Integer z) {
+        if (x == null || y == null || z == null) {
+            System.debug('Error: One or more input values are null.');
+            return;
+        }
+        if (x == y && y == z) {
+            System.debug(x + ' is the greatest number (All numbers are equal)');
+        } else if (x > y && x > z) {
+            System.debug(x + ' is the greatest number');
+        } else if (y > x && y > z) {
+            System.debug(y + ' is the greatest number');
+        } else {
+            System.debug(z + ' is the greatest number');
+        }
+    }
+}
+
+
+// To execute in Anonymous Window:
+Maximum m = new Maximum();
+m.compare(5, 9, 3); // Example to test
+
+
+
+
+// --- 4. Electricity Bill Calculator
+public class ElectricityBill {
+    public void calculateBill(Integer units) {
+        if (units == null || units < 0) {
+            System.debug('Error: Invalid input. Units cannot be null or negative.');
+            return;
+        }
+
+        Double bill = 0.0;
+
+        if (units <= 100) {
+            bill = units * 5.0;
+        } else if (units <= 200) {
+            bill = (100 * 5.0) + ((units - 100) * 7.5);
+        } else {
+            bill = (100 * 5.0) + (100 * 7.5) + ((units - 200) * 10.0);
+        }
+
+        System.debug('Units Consumed: ' + units);
+        System.debug('Total Bill: ₹' + String.valueOf(bill.setScale(2)));
+    }
+}
+
+// To execute in Anonymous Window:
+ElectricityBill eb = new ElectricityBill();
+eb.calculateBill(150); // Example of 150 units consumed
+
+
+
+
+// --- 5. Celsius to Fahrenheit Conversion
+public class TemperatureConverter {
+    public Double temperature { get; set; }
+    public String scale { get; set; }
+    public String result { get; set; }
+
+    public void convert() {
+        if (temperature == null || String.isBlank(scale)) {
+            result = 'Error: Temperature or scale is missing.';
+            return;
+        }
+
+        String normalizedScale = scale.toUpperCase();
+
+        if (normalizedScale == 'C') {
+            Double fahrenheit = (temperature * 1.8) + 32;
+            result = temperature.setScale(2) + ' °C = ' + fahrenheit.setScale(2) + ' °F';
+        } 
+        else if (normalizedScale == 'F') {
+            Double celsius = (temperature - 32) / 1.8;
+            result = temperature.setScale(2) + ' °F = ' + celsius.setScale(2) + ' °C';
+        } 
+        else {
+            result = 'Error: Invalid scale. Use "C" for Celsius or "F" for Fahrenheit.';
+        }
+    }
+}
+
+
+<apex:page controller="TemperatureConverter">
+    <apex:stylesheet value="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+
+    <div class="container mt-5">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0">🌡️ Temperature Converter</h2>
+            </div>
+
+            <div class="card-body">
+                <apex:form>
+                    <div class="form-group">
+                        <label>Enter Temperature</label>
+                        <apex:inputText value="{!temperature}" styleClass="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Select Scale</label>
+                        <apex:selectList value="{!scale}" size="1" styleClass="form-control">
+                            <apex:selectOption itemLabel="Celsius" itemValue="C" />
+                            <apex:selectOption itemLabel="Fahrenheit" itemValue="F" />
+                        </apex:selectList>
+                    </div>
+
+                    <apex:commandButton value="Convert" action="{!convert}" styleClass="btn btn-success mt-2"/>
+                </apex:form>
+
+                <apex:outputPanel rendered="{!NOT(ISNULL(result))}" layout="block" styleClass="alert alert-info mt-3">
+                    <apex:outputText value="{!result}" />
+                </apex:outputPanel>
+            </div>
+        </div>
+    </div>
+</apex:page>
+
+
+
+
+
+
+// --- 6. Currency Converter
+public class CurrencyConverter {
+    
+    private static final Map<String, Map<String, Double>> conversionRates = new Map<String, Map<String, Double>>{
+        'INR' => new Map<String, Double>{
+            'USD' => 0.012,
+            'Pound' => 0.0096
+        },
+        'USD' => new Map<String, Double>{
+            'INR' => 83.38,
+            'Pound' => 0.80
+        },
+        'Pound' => new Map<String, Double>{
+            'INR' => 104.63,
+            'USD' => 1.25
+        }
+    };
+
+    public void convertCurrency(String fromCurrency, String toCurrency, Double amount) {
+        if (fromCurrency == null || toCurrency == null || amount == null || amount < 0) {
+            System.debug('Invalid input. Please check your values.');
+            return;
+        }
+
+        if (fromCurrency == toCurrency) {
+            System.debug('The currencies are the same: ' + fromCurrency);
+            return;
+        }
+
+        if (conversionRates.containsKey(fromCurrency) && conversionRates.get(fromCurrency).containsKey(toCurrency)) {
+            Double rate = conversionRates.get(fromCurrency).get(toCurrency);
+            Double convertedAmount = amount * rate;
+            System.debug(amount + ' ' + fromCurrency + ' = ' + convertedAmount + ' ' + toCurrency);
+        } else {
+            System.debug('Conversion rate not available for ' + fromCurrency + ' to ' + toCurrency);
+        }
+    }
+}
+
+
+// To execute in Anonymous Window:
+// Convert 1000 INR to USD
+CurrencyConverter cc = new CurrencyConverter();
+cc.convertCurrency('INR', 'USD', 1000);
+cc.convertCurrency('USD', 'INR', 50);
+cc.convertCurrency('USD', 'Pound', 25);
+
+
+
+
+// --- 7. Compound Interest
+public class CompoundInterest {
+    public class Result {
+        public Double principal;
+        public Double rate;
+        public Integer time;
+        public Integer frequency;
+        public Double interest;
+        public Double totalAmount;
+    }
+
+    public Result calculate(Double p, Double r, Integer t, Integer n) {
+        Result res = new Result();
+
+        if (p == null || r == null || t == null || n == null || p < 0 || r < 0 || t < 0 || n <= 0) {
+            System.debug('Error: Invalid input values.');
+            return null;
+        }
+
+        Double amount = p * Math.pow((1 + r / (100 * n)), n * t);
+        Double ci = amount - p;
+
+        res.principal = p;
+        res.rate = r;
+        res.time = t;
+        res.frequency = n;
+        res.interest = Math.round(ci * 100.0) / 100.0;
+        res.totalAmount = Math.round(amount * 100.0) / 100.0;
+
+        System.debug('Principal: ₹' + p);
+        System.debug('Annual Interest Rate: ' + r + '%');
+        System.debug('Time Period: ' + t + ' years');
+        System.debug('Compounded ' + n + ' times per year');
+        System.debug('Compound Interest: ₹' + res.interest);
+        System.debug('Total Amount: ₹' + res.totalAmount);
+
+        return res;
+    }
+}
+
+
+
+// To execute in Anonymous Window:
+CompoundInterest ci = new CompoundInterest();
+ci.calculate(5000.0, 5.5, 3, 4); // Quarterly compounding
+
+
+
+
+// --- 8. Area of Geometry
+public class GeometryArea {
+    public void calculateCircleArea(Double radius) {
+        if (radius == null || radius < 0) {
+            System.debug('Error: Radius cannot be null or negative.');
+            return;
+        }
+        Double area = Math.PI * radius * radius;
+        System.debug('Area of Circle: ' + area);
+    }
+
+    public void calculateRectangleArea(Double length, Double width) {
+        if (length == null || width == null || length < 0 || width < 0) {
+            System.debug('Error: Length and width must be non-negative.');
+            return;
+        }
+        Double area = length * width;
+        System.debug('Area of Rectangle: ' + area);
+    }
+
+    public void calculateTriangleArea(Double base, Double height) {
+        if (base == null || height == null || base < 0 || height < 0) {
+            System.debug('Error: Base and height must be non-negative.');
+            return;
+        }
+        Double area = 0.5 * base * height;
+        System.debug('Area of Triangle: ' + area);
+    }
+
+    public void calculateSquareArea(Double side) {
+        if (side == null || side < 0) {
+            System.debug('Error: Side must be non-negative.');
+            return;
+        }
+        Double area = side * side;
+        System.debug('Area of Square: ' + area);
+    }
+}
+
+
+
+// To execute in Anonymous Window:
+GeometryArea g = new GeometryArea();
+g.calculateCircleArea(5.0);
+g.calculateRectangleArea(4.0, 3.0);
+g.calculateTriangleArea(6.0, 2.5);
+g.calculateSquareArea(7.0);
+
+
+
+
+// --- 9. BFS Traversal
+public class BFS {
+    public void bfs(List<List<Integer>> graph, Integer start) {
+        Set<Integer> visited = new Set<Integer>();
+        Queue<Integer> queue = new Queue<Integer>();  // Corrected Queue declaration
+        queue.add(start);
+        visited.add(start);
+
+        while (!queue.isEmpty()) {
+            Integer node = queue.poll();  // Get the first node from the queue
+            System.debug('Visited node: ' + node);
+
+            // Visit all neighbors of the current node
+            for (Integer neighbor : graph.get(node)) {
+                if (!visited.contains(neighbor)) {
+                    queue.add(neighbor);
+                    visited.add(neighbor);
+                }
+            }
+        }
+    }
+}
+
+
+
+// To execute in Anonymous Window:
+BFS bfs = new BFS();
+List<List<Integer>> graph = new List<List<Integer>>{
+    new List<Integer>{1, 2},
+    new List<Integer>{0, 3, 4},
+    new List<Integer>{0},
+    new List<Integer>{1},
+    new List<Integer>{1}
+};
+bfs.bfs(graph, 0);
+
+
+
+
+
+// --- 10. Array Element Addition
+public class ArraySum {
+    public void sumArray(List<Integer> arr) {
+        Integer sum = 0;
+        
+        for (Integer i = 0; i < arr.size(); i++) {
+            sum += arr[i];
+        }
+        
+        System.debug('Sum of all elements: ' + sum);
+    }
+}
+
+
+
+// To execute in Anonymous Window:
+ArraySum sumObj = new ArraySum();
+List<Integer> arr = new List<Integer>{1, 2, 3, 4, 5};
+sumObj.sumArray(arr);
+
+
+
+// --- 11. Matrix Addition
+public class MatrixAddition {
+    public void addMatrices(List<List<Integer>> mat1, List<List<Integer>> mat2) {
+        // Check if matrices have the same size
+        if (mat1.size() != mat2.size() || mat1[0].size() != mat2[0].size()) {
+            System.debug('Matrices must be of the same size');
+            return;
+        }
+
+        List<List<Integer>> result = new List<List<Integer>>();
+
+        // Perform addition of corresponding elements
+        for (Integer i = 0; i < mat1.size(); i++) {
+            List<Integer> row = new List<Integer>();
+            for (Integer j = 0; j < mat1[i].size(); j++) {
+                row.add(mat1[i][j] + mat2[i][j]);
+            }
+            result.add(row);
+        }
+
+        // Output the resulting matrix
+        System.debug('Resulting Matrix: ' + result);
+    }
+}
+
+
+
+// To execute in Anonymous Window:
+MatrixAddition matrixAdd = new MatrixAddition();
+List<List<Integer>> mat1 = new List<List<Integer>>{ 
+    new List<Integer>{1, 2}, 
+    new List<Integer>{3, 4}
+};
+List<List<Integer>> mat2 = new List<List<Integer>>{ 
+    new List<Integer>{5, 6}, 
+    new List<Integer>{7, 8}
+};
+matrixAdd.addMatrices(mat1, mat2);
+
+
+
+
+// --- 12. Matrix Multiplication
+public class MatrixMultiplication {
+    public void multiplyMatrices(List<List<Integer>> mat1, List<List<Integer>> mat2) {
+        // Check if the number of columns in mat1 equals the number of rows in mat2
+        if (mat1[0].size() != mat2.size()) {
+            System.debug('Number of columns in mat1 must be equal to number of rows in mat2');
+            return;
+        }
+
+        // Initialize the result matrix with appropriate size
+        List<List<Integer>> result = new List<List<Integer>>();
+        for (Integer i = 0; i < mat1.size(); i++) {
+            List<Integer> row = new List<Integer>();
+            for (Integer j = 0; j < mat2[0].size(); j++) {
+                row.add(0); // Initialize the row with zeros
+            }
+            result.add(row);
+        }
+
+        // Perform matrix multiplication
+        for (Integer i = 0; i < mat1.size(); i++) {
+            for (Integer j = 0; j < mat2[0].size(); j++) {
+                for (Integer k = 0; k < mat2.size(); k++) {
+                    result[i][j] += mat1[i][k] * mat2[k][j];
+                }
+            }
+        }
+
+        // Output the result matrix
+        System.debug('Resulting Matrix: ');
+        for (List<Integer> row : result) {
+            System.debug(row);
+        }
+    }
+}
+
+
+// To execute in Anonymous Window:
+MatrixMultiplication mm = new MatrixMultiplication();
+List<List<Integer>> mat1 = new List<List<Integer>>{ 
+    new List<Integer>{1, 2}, 
+    new List<Integer>{3, 4}
+};
+List<List<Integer>> mat2 = new List<List<Integer>>{ 
+    new List<Integer>{5, 6}, 
+    new List<Integer>{7, 8}
+};
+mm.multiplyMatrices(mat1, mat2);
+
+
+
+
+// --- 13. First 100 Natural Numbers
+public class NaturalNumbers {
+    public void printNaturalNumbers() {
+        for (Integer i = 1; i <= 100; i++) {
+            System.debug(i);
+        }
+    }
+}
+
+
+
+// To execute in Anonymous Window:
+NaturalNumbers naturalNumbersObj = new NaturalNumbers();
+naturalNumbersObj.printNaturalNumbers();
+
+
+
+// --- 14. Fibonacci Series
+public class Fibonacci {
+    public void generate(Integer n) {
+        if (n <= 0) {
+            System.debug('Please provide a positive number.');
+            return;
+        }
+
+        Integer a = 0, b = 1;
+        
+        // Handle the first number
+        if (n >= 1) System.debug(a);
+        // Handle the second number
+        if (n >= 2) System.debug(b);
+        
+        // Generate Fibonacci numbers from the 3rd number onward
+        for (Integer i = 2; i < n; i++) {
+            Integer next = a + b;
+            System.debug(next);
+            a = b;
+            b = next;
+        }
+    }
+}
+
+
+// To execute in Anonymous Window:
+Fibonacci fib = new Fibonacci();
+fib.generate(10);
+
+
+
+
+// --- 15. Prime Check
+public class PrimeCheck {
+    public void checkPrime(Integer num) {
+        if (num == null || num <= 1) {
+            System.debug(num + ' is not a prime number.');
+            return;
+        }
+
+        for (Integer i = 2; i <= Math.floor(Math.sqrt(num)); i++) {
+            if (num % i == 0) {
+                System.debug(num + ' is not a prime number.');
+                return;
+            }
+        }
+
+        System.debug(num + ' is a prime number.');
+    }
+}
+
+
+// To execute in Anonymous Window:
+PrimeCheck p = new PrimeCheck();
+p.checkPrime(17); // Prime
+p.checkPrime(18); // Not Prime
